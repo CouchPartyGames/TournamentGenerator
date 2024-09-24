@@ -1,4 +1,4 @@
-namespace CouchPartyGames.TournamentGenerator.Builder;
+namespace CouchPartyGames.TournamentGenerator.Type;
 
 
 public record LocalMatchId {

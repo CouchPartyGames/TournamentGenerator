@@ -1,6 +1,5 @@
 namespace CouchPartyGames.TournamentGenerator;
 
-using CouchPartyGames.TournamentGenerator.Size;
 using CouchPartyGames.TournamentGenerator.Opponent;
 using CouchPartyGames.TournamentGenerator.Position;
 using CouchPartyGames.TournamentGenerator.Type;
@@ -9,7 +8,9 @@ using CouchPartyGames.TournamentGenerator.Type;
 public sealed class SingleEliminationBuilder<TOpponent> 
     where TOpponent : IOpponent {
 
+    private TournamentSize _size = TournamentSize.Size16;
     private DrawSize _drawSize;
+
     private string _name;
 
     private List<TOpponent> _opponents = new();
@@ -39,13 +40,18 @@ public sealed class SingleEliminationBuilder<TOpponent>
         return this;
     }
 
+    public SingleEliminationBuilder<TOpponent> SetSize(TournamentSize size) {
+        _size = size;
+        return this;
+    }
+
     public SingleEliminationBuilder<TOpponent> SetSeeding() {
         return this;
     }
 
     public Tournament<TOpponent> Build() {
         if (_opponents.Count == 0) {
-            _drawSize = DrawSize.New(DrawSize.Size.Size16);
+            _drawSize = DrawSize.NewFromOpponents((int)_size);
         } else {
             _drawSize = DrawSize.NewFromOpponents(_opponents.Count);
         }

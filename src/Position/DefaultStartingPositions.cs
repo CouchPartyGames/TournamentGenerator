@@ -1,6 +1,5 @@
 namespace CouchPartyGames.TournamentGenerator.Position;
 
-using CouchPartyGames.TournamentGenerator.Size;
 using CouchPartyGames.TournamentGenerator.Exceptions;
 
 

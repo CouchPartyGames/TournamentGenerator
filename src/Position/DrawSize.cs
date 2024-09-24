@@ -2,7 +2,7 @@ using System.Numerics;
 using System.Text.Json.Serialization;
 using CouchPartyGames.TournamentGenerator.Exceptions;
 
-namespace CouchPartyGames.TournamentGenerator.Size;
+namespace CouchPartyGames.TournamentGenerator.Position;
 
 
 // <summary>
