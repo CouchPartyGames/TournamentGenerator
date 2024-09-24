@@ -17,6 +17,8 @@ public class Tournament<TOpponent> {
 
     public required int Size { get; init; }
 
+    public required string Seeding { get; init; }
+
     public List<TOpponent> ActiveOpponents { get; init; } = new();
 /*    
     public List<IOpponent> Backlog { get; init; } = new();

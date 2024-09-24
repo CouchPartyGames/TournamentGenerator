@@ -9,6 +9,7 @@ public sealed class SingleEliminationBuilder<TOpponent>
     where TOpponent : IOpponent {
 
     private TournamentSize _size = TournamentSize.NotSet;
+    private TournamentSeeding _seeding = TournamentSeeding.Ranked;
 
     private string _name;
 
@@ -44,7 +45,8 @@ public sealed class SingleEliminationBuilder<TOpponent>
         return this;
     }
 
-    public SingleEliminationBuilder<TOpponent> SetSeeding() {
+    public SingleEliminationBuilder<TOpponent> SetSeeding(TournamentSeeding seeding) {
+        _seeding = seeding;
         return this;
     }
 
@@ -57,7 +59,7 @@ public sealed class SingleEliminationBuilder<TOpponent>
             // Create Ids for each Match
         var matchIds = new CreateMatchIds(_startingPositions);
 
-            // Create Tournament
+            // Create Tournament with Progressions
         var single = new SingleEliminationDraw<TOpponent>(matchIds, _finalsType);
         single.CreateMatchProgressions();
         var matches = single.Matches;
@@ -65,6 +67,7 @@ public sealed class SingleEliminationBuilder<TOpponent>
         return new Tournament<TOpponent> {
             Name = _name,
             Size = (int)_size,
+            Seeding = nameof(_seeding),
             AllowThirdPlace = _play3rdPlace,
             FinalsType = _finalsType,
             ActiveOpponents = _opponents,
