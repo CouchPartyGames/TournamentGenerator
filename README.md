@@ -6,7 +6,7 @@ Simple Tournament Generator
 
 ## Features
 
-- 
+- Single elimination tournament 
 - 
 
 
@@ -31,7 +31,6 @@ dotnet add package CouchPartyGames.TournamentGenerator
 Simple Example that creates a tournament
 ```
 using CouchPartyGames.TournamentGenerator;
-using CouchPartyGames.TournamentGenerator.Builder.Opponent;
 
 List<MyOpponent> opponents = [
     new("Pete", 3),
