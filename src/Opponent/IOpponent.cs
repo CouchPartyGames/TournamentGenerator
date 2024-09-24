@@ -1,4 +1,4 @@
-namespace CouchPartyGames.TournamentGenerator.Builder.Opponent;
+namespace CouchPartyGames.TournamentGenerator.Opponent;
 
 public interface IOpponent {
 

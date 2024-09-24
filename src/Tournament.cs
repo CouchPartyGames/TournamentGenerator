@@ -1,7 +1,7 @@
 namespace CouchPartyGames.TournamentGenerator;
 
-using CouchPartyGames.TournamentGenerator.Builder.Opponent;
-using CouchPartyGames.TournamentGenerator.Builder.Type;
+using CouchPartyGames.TournamentGenerator.Opponent;
+using CouchPartyGames.TournamentGenerator.Type;
 
 public class Tournament<TOpponent> {
     public enum Progression {

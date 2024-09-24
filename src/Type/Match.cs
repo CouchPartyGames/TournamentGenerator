@@ -1,4 +1,4 @@
-namespace CouchPartyGames.TournamentGenerator.Builder.Type;
+namespace CouchPartyGames.TournamentGenerator.Type;
 
 public sealed record Match<TOpponent> {
 

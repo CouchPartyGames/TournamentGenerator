@@ -1,6 +1,6 @@
-namespace CouchPartyGames.TournamentGenerator.Builder.Type;
+namespace CouchPartyGames.TournamentGenerator.Type;
 
-using CouchPartyGames.TournamentGenerator.Builder.Position;
+using CouchPartyGames.TournamentGenerator.Position;
 
 public sealed record MatchWithId
 {

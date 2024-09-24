@@ -1,9 +1,9 @@
 namespace CouchPartyGames.TournamentGenerator;
 
-using CouchPartyGames.TournamentGenerator.Builder.Size;
-using CouchPartyGames.TournamentGenerator.Builder.Opponent;
-using CouchPartyGames.TournamentGenerator.Builder.Position;
-using CouchPartyGames.TournamentGenerator.Builder.Type;
+using CouchPartyGames.TournamentGenerator.Size;
+using CouchPartyGames.TournamentGenerator.Opponent;
+using CouchPartyGames.TournamentGenerator.Position;
+using CouchPartyGames.TournamentGenerator.Type;
 
 
 public sealed class SingleEliminationBuilder<TOpponent> 
