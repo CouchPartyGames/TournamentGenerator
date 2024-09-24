@@ -15,6 +15,7 @@ public class Tournament<TOpponent> {
 
     public required FinalsType FinalsType { get; init; }
 
+    public required int Size { get; init; }
 
     public List<TOpponent> ActiveOpponents { get; init; } = new();
 /*    

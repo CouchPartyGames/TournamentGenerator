@@ -7,6 +7,8 @@ using CouchPartyGames.TournamentGenerator.Exceptions;
 public sealed class SingleEliminationDraw<TOpponent> 
 {
    private readonly FinalsType _finalsType;
+
+   private readonly bool _play3rdPlace;
    
    public List<Match<TOpponent>> Matches { get { return _matches; } }
    private List<Match<TOpponent>> _matches = new();
@@ -14,10 +16,11 @@ public sealed class SingleEliminationDraw<TOpponent>
    private List<MatchWithId> _matchIds;
 
    
-   public SingleEliminationDraw(CreateMatchIds matchIds, FinalsType finalsType = FinalsType.OneOfOne)
+   public SingleEliminationDraw(CreateMatchIds matchIds, FinalsType finalsType = FinalsType.OneOfOne, bool play3rdPlace = false)
    {
       _finalsType = finalsType;
       _matchIds = matchIds.MatchByIds;
+      _play3rdPlace = play3rdPlace;
    }
 
    public void CreateMatchProgressions()
@@ -31,7 +34,13 @@ public sealed class SingleEliminationDraw<TOpponent>
 
             // Get Match Ids for the Current and Next Round (after current round)
          AddMatchesToRound(round, curRoundMatches, nextRoundMatches);
+
+
+         /*if (round == totalRounds - 1 && _play3rdPlace) {
+            AddThirdPlaceMatch(99, 99);
+         }*/
       }
+
       
       if (!IsFinalRound(totalRounds)) {
          throw new InvalidFinalRoundException("Final Round doesnt contain a single match");
@@ -44,32 +53,32 @@ public sealed class SingleEliminationDraw<TOpponent>
       AddFinals(finalMatch[0].LocalMatchId, totalRounds);
    }
 
-    void AddMatchesToRound(int round, List<MatchWithId> curMatchIds, List<MatchWithId> nextMatchIds)
-    {
-        int prevId = 0;
-        var chunkPairs = curMatchIds.Chunk<MatchWithId>(2);
+   void AddMatchesToRound(int round, List<MatchWithId> curMatchIds, List<MatchWithId> nextMatchIds)
+   {
+      int prevId = 0;
+      var chunkPairs = curMatchIds.Chunk<MatchWithId>(2);
 
          // Number of Pairs in the Current should match the Next Round
-        if (chunkPairs.ToList().Count != nextMatchIds.Count)
-        {
-            throw new MismatchProgressionChunkSize("Current round's chunk doesn't match the next round's number of matches");
-        }
+      if (chunkPairs.ToList().Count != nextMatchIds.Count)
+      {
+         throw new MismatchProgressionChunkSize("Current round's chunk doesn't match the next round's number of matches");
+      }
       
-        foreach (var pair in chunkPairs)
-        {
-            var matchToProgressTo = nextMatchIds[prevId];
-            foreach (var curRoundMatch in pair)
-            {
-               var progressMatchId = matchToProgressTo.LocalMatchId;
-               var match = round == 1 ? 
-                  Match<TOpponent>.New(curRoundMatch, progressMatchId) : 
-                  Match<TOpponent>.New(curRoundMatch, progressMatchId);
+      foreach (var pair in chunkPairs)
+      {
+         var matchToProgressTo = nextMatchIds[prevId];
+         foreach (var curRoundMatch in pair)
+         {
+            var progressMatchId = matchToProgressTo.LocalMatchId;
+            var match = round == 1 ? 
+               Match<TOpponent>.New(curRoundMatch, progressMatchId) : 
+               Match<TOpponent>.New(curRoundMatch, progressMatchId);
 
-               _matches.Add(match);
-            }
-            prevId++;
-        }
-    }
+            _matches.Add(match);
+         }
+         prevId++;
+      }
+   }
 
    // Add Final Match(es) to Championship Round
    void AddFinals(int matchId, int round)
@@ -96,11 +105,11 @@ public sealed class SingleEliminationDraw<TOpponent>
       }
    }
 
-    void AddThirdPlaceMatch(int matchId, int round) {
+   void AddThirdPlaceMatch(int matchId, int round) {
       _matches.Add(Match<TOpponent>.NewNoProgression(matchId, round));
-    }
+   }
 
-    bool IsFinalRound(int round) => _matchIds
+   bool IsFinalRound(int round) => _matchIds
       .Where(m => m.Round == round)
       .Count() == 1;
 }

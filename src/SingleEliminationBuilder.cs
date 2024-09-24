@@ -8,8 +8,7 @@ using CouchPartyGames.TournamentGenerator.Type;
 public sealed class SingleEliminationBuilder<TOpponent> 
     where TOpponent : IOpponent {
 
-    private TournamentSize _size = TournamentSize.Size16;
-    private DrawSize _drawSize;
+    private TournamentSize _size = TournamentSize.NotSet;
 
     private string _name;
 
@@ -50,13 +49,10 @@ public sealed class SingleEliminationBuilder<TOpponent>
     }
 
     public Tournament<TOpponent> Build() {
-        if (_opponents.Count == 0) {
-            _drawSize = DrawSize.NewFromOpponents((int)_size);
-        } else {
-            _drawSize = DrawSize.NewFromOpponents(_opponents.Count);
-        }
+        var drawSize = GetDrawSize();
+
             // Create Starting Positions 
-        _startingPositions = new DefaultStartingPositions(_drawSize);
+        _startingPositions = new DefaultStartingPositions(drawSize);
 
             // Create Ids for each Match
         var matchIds = new CreateMatchIds(_startingPositions);
@@ -68,10 +64,19 @@ public sealed class SingleEliminationBuilder<TOpponent>
 
         return new Tournament<TOpponent> {
             Name = _name,
+            Size = (int)_size,
             AllowThirdPlace = _play3rdPlace,
             FinalsType = _finalsType,
             ActiveOpponents = _opponents,
             Matches = matches
         };
+    }
+
+
+    private DrawSize GetDrawSize() {
+        if (_size != TournamentSize.NotSet) {
+            return DrawSize.NewFromOpponents((int) _size);
+        }
+        return DrawSize.NewFromOpponents(_opponents.Count);
     }
 }

@@ -2,6 +2,7 @@ namespace CouchPartyGames.TournamentGenerator;
 
 public enum TournamentSize
 {
+    NotSet = 0,
     Size2 = 2,
     Size4 = 4,
     Size8 = 8,
