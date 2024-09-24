@@ -30,7 +30,8 @@ dotnet add package CouchPartyGames.TournamentGenerator
 
 Simple Example that creates a tournament
 ```
-using CouchPartyGames.TournamentGen;
+using CouchPartyGames.TournamentGenerator;
+using CouchPartyGames.TournamentGenerator.Builder.Opponent;
 
 List<MyOpponent> opponents = [
     new("Pete", 3),
@@ -42,7 +43,7 @@ List<MyOpponent> opponents = [
     new("Tim", 1)
 ];
 
-var tournament = new SingleEliminationBuilder<MyOpponent>("Jete's Tournament")
+var tournament = new SingleEliminationBuilder<MyOpponent>("Bob's Tournament")
     .WithOpponents(opponents)
     .SetFinalsType(FinalsType.TwoOfThree)
     .Build();
