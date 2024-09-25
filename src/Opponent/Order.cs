@@ -3,7 +3,8 @@ namespace CouchPartyGames.TournamentGenerator.Opponent;
 using CouchPartyGames.TournamentGenerator;
 using CouchPartyGames.TournamentGenerator.Exceptions;
 
-public abstract class Order<TOpponent> where TOpponent : IOpponent
+public abstract class Order<TOpponent> 
+    where TOpponent : IOpponent
 {
     protected const int _startIndex = 1;
 

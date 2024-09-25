@@ -32,7 +32,7 @@ public sealed class DefaultStartingPositions : IOpponentStartPosition
 			 DrawSize.Size.Size32 => GetDrawSize32(),
 			 DrawSize.Size.Size64 => GetDrawSize64(),
 			 DrawSize.Size.Size128 => GetDrawSize128(),
-			 _ => throw new InvalidDrawSizeException( $"Unable to seed matches for size: ${DrawSize.Value}")
+			 _ => throw new InvalidDrawSizeException( $"Unable to set start positions, bad draw size: ${DrawSize.Value}")
 		};
 	}
 

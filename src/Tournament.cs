@@ -3,7 +3,9 @@ namespace CouchPartyGames.TournamentGenerator;
 using CouchPartyGames.TournamentGenerator.Opponent;
 using CouchPartyGames.TournamentGenerator.Type;
 
-public class Tournament<TOpponent> {
+public class Tournament<TOpponent> 
+    where TOpponent : IOpponent 
+{
 
     public required string Name { get; init; }
 

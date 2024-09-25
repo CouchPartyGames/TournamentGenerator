@@ -6,6 +6,7 @@ using CouchPartyGames.TournamentGenerator;
 
 
 public sealed class SingleEliminationDraw<TOpponent> 
+   where TOpponent : IOpponent
 {
    private readonly TournamentFinals _finalsType;
 

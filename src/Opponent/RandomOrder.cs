@@ -6,7 +6,8 @@ using CouchPartyGames.TournamentGenerator.Exceptions;
 // <summary>
 // Random ordering of Opponents (Blind Draw Seeding)
 // </summary>
-public sealed class RandomOrder<TOpponent>(List<TOpponent> opponents) : Order<TOpponent> where TOpponent : IOpponent
+public sealed class RandomOrder<TOpponent>(List<TOpponent> opponents) : Order<TOpponent> 
+    where TOpponent : IOpponent
 {
     // <summary>
     // Dictionary of ordered opponents

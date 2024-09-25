@@ -6,7 +6,8 @@ using CouchPartyGames.TournamentGenerator.Exceptions;
 // <summary>
 // Ranked Order of Opponents
 // </summary>
-public sealed class RankedOrder<TOpponent>(List<TOpponent> opponents) : Order<TOpponent> where TOpponent : IOpponent
+public sealed class RankedOrder<TOpponent>(List<TOpponent> opponents) : Order<TOpponent> 
+    where TOpponent : IOpponent
 {
     // <summary>
     // Dictionary of ordered opponents
