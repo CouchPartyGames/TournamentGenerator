@@ -59,6 +59,10 @@ public sealed class SingleEliminationBuilder<TOpponent>
             // Create Ids for each Match
         var matchIds = new CreateMatchIds(_startingPositions);
 
+        var order = Order<TOpponent>.Create(_seeding, _opponents);
+        
+        //order.Opponents;
+
             // Create Tournament with Progressions
         var single = new SingleEliminationDraw<TOpponent>(matchIds, _finalsType);
         single.CreateMatchProgressions();

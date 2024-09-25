@@ -5,12 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>CouchPartyGames.TournamentGenerator</PackageId>
-	<Version>1.0.0-alpha</Version>
-	<Authors>CouchPartyGames</Authors>
-	<SymbolPackageForm>snupkg</SymbolPackageForm>
-	<PackageProjectUrl>https://github.com/CouchPartyGames/TournamentGenerator</PackageProjectUrl>
-	<PackageTags>tournament generator</PackageTags>
-	<Description>
+	  <Version>1.0.0-alpha</Version>
+	  <Authors>CouchPartyGames</Authors>
+	  <SymbolPackageForm>snupkg</SymbolPackageForm>
+	  <PackageProjectUrl>https://github.com/CouchPartyGames/TournamentGenerator</PackageProjectUrl>
+	  <PackageTags>tournament generator</PackageTags>
+	  <Description>
      Simple Tournament Draw Generator
     </Description>
     <RootNamespace>CouchPartyGames.TournamentGenerator</RootNamespace>

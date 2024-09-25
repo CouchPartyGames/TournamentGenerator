@@ -6,12 +6,12 @@ using CouchPartyGames.TournamentGenerator.Exceptions;
 // <summary>
 // Random ordering of Opponents (Blind Draw Seeding)
 // </summary>
-public sealed class RandomOrder(List<IOpponent> opponents) : Order
+public sealed class RandomOrder<TOpponent>(List<TOpponent> opponents) : Order<TOpponent> where TOpponent : IOpponent
 {
     // <summary>
     // Dictionary of ordered opponents
     // </summary>
-    public override Dictionary<int, IOpponent> Opponents
+    public override Dictionary<int, TOpponent> Opponents
     {
         get
         {
@@ -21,7 +21,7 @@ public sealed class RandomOrder(List<IOpponent> opponents) : Order
             }
 
             Random rng = new Random();
-            var orderedOpps = new Dictionary<int, IOpponent>();
+            var orderedOpps = new Dictionary<int, TOpponent>();
 
             int i = _startIndex;
             foreach (var opp in opponents.OrderBy(a => rng.Next()).ToList() )

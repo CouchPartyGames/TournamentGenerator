@@ -3,7 +3,7 @@ namespace CouchPartyGames.TournamentGenerator.Opponent;
 using CouchPartyGames.TournamentGenerator;
 using CouchPartyGames.TournamentGenerator.Exceptions;
 
-public abstract class Order
+public abstract class Order<TOpponent> where TOpponent : IOpponent
 {
     protected const int _startIndex = 1;
 
@@ -15,11 +15,16 @@ public abstract class Order
         Ranked
     };
 
-    public abstract Dictionary<int, IOpponent> Opponents { get; }
+    public abstract Dictionary<int, TOpponent> Opponents { get; }
 
-    public static Order Create(OrderType order, List<IOpponent> opponents) => order switch
+    public static Order<TOpponent> Create(OrderType order, List<TOpponent> opponents) => order switch
     {
-        OrderType.Ranked => new RankedOrder(opponents),
-        _ => new RandomOrder(opponents)
+        OrderType.Ranked => new RankedOrder<TOpponent>(opponents),
+        _ => new RandomOrder<TOpponent>(opponents)
+    };
+
+    public static Order<TOpponent> Create(TournamentSeeding order, List<TOpponent> opponents) => order switch {
+        TournamentSeeding.Ranked => new RankedOrder<TOpponent>(opponents),
+        _ => new RandomOrder<TOpponent>(opponents)
     };
 }

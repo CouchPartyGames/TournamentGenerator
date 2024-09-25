@@ -4,10 +4,6 @@ using CouchPartyGames.TournamentGenerator.Opponent;
 using CouchPartyGames.TournamentGenerator.Type;
 
 public class Tournament<TOpponent> {
-    public enum Progression {
-        Win,
-        Lose
-    }
 
     public required string Name { get; init; }
 
@@ -20,10 +16,8 @@ public class Tournament<TOpponent> {
     public required string Seeding { get; init; }
 
     public List<TOpponent> ActiveOpponents { get; init; } = new();
-/*    
-    public List<IOpponent> Backlog { get; init; } = new();
+    
     public List<IOpponent> RejectedOpponents { get; init; } = new();
-*/
 
     public List<Match<TOpponent>> Matches { get; init; } = new();
 
@@ -36,7 +30,7 @@ public class Tournament<TOpponent> {
 
     // <summary>
     // Find the next match
-    public Match<TOpponent> GetNextMatch(int localMatchId, Progression progression) {
+    public Match<TOpponent> GetNextMatch(int localMatchId) {
         /*
         var nextMatchId = Matches.Where(m => m.LocalMatchId == localMatchId).Select(m => m.WinProgression).FirstOrDefault();
         if (nextMatchId is null) {
