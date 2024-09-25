@@ -17,7 +17,7 @@ public sealed class RankedOrder<TOpponent>(List<TOpponent> opponents) : Order<TO
         {
             if (opponents.Count < MinParticipants)
             {
-                throw new LackOfOpponentsException("Not enough participants");
+                throw new LackOfOpponentsException($"Found {opponents.Count} opponents! Tournament requires at least {MinParticipants}!");
             }
 
             int i = _startIndex;

@@ -32,6 +32,7 @@ Simple Example that creates a tournament
 ```
 using CouchPartyGames.TournamentGenerator;
 
+	// Create a List of Opponents
 List<MyOpponent> opponents = [
     new("Pete", 3),
     new("Steve", 3),
@@ -39,18 +40,26 @@ List<MyOpponent> opponents = [
     new("Ric", 5),
     new("Andre", 2),
     new("Bill", 1),
-    new("Tim", 1)
+    new("Tim", 9),
+	new("Jim", 22),
+	new("John", 33)
 ];
 
+	// Create a bye opponent
+var byeOpponent = new MyOpponent("Bye", int.MaxValue);
+
 var tournament = new SingleEliminationBuilder<MyOpponent>("Bob's Tournament")
-    .WithOpponents(opponents)
-    .SetFinalsType(FinalsType.TwoOfThree)
+    .WithOpponents(opponents, byeOpponent)
+    .SetSize(TournamentSize.Size16)
+    .SetSeeding(TournamentSeeding.Ranked)
+    .SetFinals(TournamentFinals.TwoOfThree)
     .Build();
 
 foreach(var match in tournament.Matches) {
     Console.WriteLine(match);
 }
 
-	// Create Opponent
+    // Create Opponent object
+    // *Note: Must extend IOpponent interface
 public record MyOpponent(string Name, int Rank) : IOpponent;
 ```

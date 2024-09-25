@@ -1,6 +1,6 @@
 namespace CouchPartyGames.TournamentGenerator;
 
-public enum FinalsType {
+public enum TournamentFinals {
     OneOfOne,
     TwoOfThree,
     ThreeOfFive

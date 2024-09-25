@@ -2,11 +2,12 @@ namespace CouchPartyGames.TournamentGenerator.Type;
 
 using CouchPartyGames.TournamentGenerator.Position;
 using CouchPartyGames.TournamentGenerator.Exceptions;
+using CouchPartyGames.TournamentGenerator;
 
 
 public sealed class SingleEliminationDraw<TOpponent> 
 {
-   private readonly FinalsType _finalsType;
+   private readonly TournamentFinals _finalsType;
 
    private readonly bool _play3rdPlace;
    
@@ -16,11 +17,15 @@ public sealed class SingleEliminationDraw<TOpponent>
    private List<MatchWithId> _matchIds;
 
    
-   public SingleEliminationDraw(CreateMatchIds matchIds, FinalsType finalsType = FinalsType.OneOfOne, bool play3rdPlace = false)
+   public SingleEliminationDraw(CreateMatchIds matchIds, TournamentFinals finalsType = TournamentFinals.OneOfOne, bool play3rdPlace = false)
    {
       _finalsType = finalsType;
       _matchIds = matchIds.MatchByIds;
       _play3rdPlace = play3rdPlace;
+   }
+
+   public void WithOpponents(Dictionary<int, TOpponent> opponents) {
+
    }
 
    public void CreateMatchProgressions()
@@ -36,6 +41,7 @@ public sealed class SingleEliminationDraw<TOpponent>
          AddMatchesToRound(round, curRoundMatches, nextRoundMatches);
 
 
+            // If 2nd to last round, setup 3rd place
          /*if (round == totalRounds - 1 && _play3rdPlace) {
             AddThirdPlaceMatch(99, 99);
          }*/
@@ -85,17 +91,17 @@ public sealed class SingleEliminationDraw<TOpponent>
    {
       switch (_finalsType)
       {
-         case FinalsType.OneOfOne:
+         case TournamentFinals.OneOfOne:
             _matches.Add(Match<TOpponent>.NewNoProgression(matchId, round));
             break;
 
-         case FinalsType.TwoOfThree:
+         case TournamentFinals.TwoOfThree:
             _matches.Add(Match<TOpponent>.New(matchId, round, matchId + 1));
             _matches.Add(Match<TOpponent>.New(matchId + 1, round + 1, matchId + 2));
             _matches.Add(Match<TOpponent>.NewNoProgression(matchId + 2, round + 2));
             break;
 
-         case FinalsType.ThreeOfFive:
+         case TournamentFinals.ThreeOfFive:
             _matches.Add(Match<TOpponent>.New(matchId, round, matchId + 1));
             _matches.Add(Match<TOpponent>.New(matchId + 1, round + 1, matchId + 2));
             _matches.Add(Match<TOpponent>.New(matchId + 2, round + 2, matchId + 3));

@@ -7,9 +7,9 @@ public class Tournament<TOpponent> {
 
     public required string Name { get; init; }
 
-    public required bool AllowThirdPlace { get; init; }
+    public required string ThirdPlace { get; init; }
 
-    public required FinalsType FinalsType { get; init; }
+    public required TournamentFinals FinalsType { get; init; }
 
     public required int Size { get; init; }
 

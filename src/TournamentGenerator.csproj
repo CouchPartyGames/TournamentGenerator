@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>CouchPartyGames.TournamentGenerator</PackageId>
-	  <Version>1.0.0-alpha</Version>
+	  <Version>1.0.2-alpha</Version>
 	  <Authors>CouchPartyGames</Authors>
 	  <SymbolPackageForm>snupkg</SymbolPackageForm>
 	  <PackageProjectUrl>https://github.com/CouchPartyGames/TournamentGenerator</PackageProjectUrl>
@@ -14,6 +14,7 @@
      Simple Tournament Draw Generator
     </Description>
     <RootNamespace>CouchPartyGames.TournamentGenerator</RootNamespace>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>
