@@ -25,14 +25,14 @@ public sealed class DefaultStartingPositions : IOpponentStartPosition
 		DrawSize = drawSize;
 		_matches = DrawSize.Value switch
 		{
-			 DrawSize.Size.Size2 => GetDrawSize2(),
-			 DrawSize.Size.Size4 => GetDrawSize4(),
-			 DrawSize.Size.Size8 => GetDrawSize8(),
-			 DrawSize.Size.Size16 => GetDrawSize16(),
-			 DrawSize.Size.Size32 => GetDrawSize32(),
-			 DrawSize.Size.Size64 => GetDrawSize64(),
-			 DrawSize.Size.Size128 => GetDrawSize128(),
-			 _ => throw new InvalidDrawSizeException( $"Unable to set start positions, bad draw size: ${DrawSize.Value}")
+			TournamentSize.Size2 => GetDrawSize2(),
+			TournamentSize.Size4 => GetDrawSize4(),
+			TournamentSize.Size8 => GetDrawSize8(),
+			TournamentSize.Size16 => GetDrawSize16(),
+			TournamentSize.Size32 => GetDrawSize32(),
+			TournamentSize.Size64 => GetDrawSize64(),
+			TournamentSize.Size128 => GetDrawSize128(),
+			_ => throw new InvalidDrawSizeException( $"Unable to set start positions, bad draw size: ${DrawSize.Value}")
 		};
 	}
 

@@ -91,8 +91,8 @@ public sealed class SingleEliminationBuilder<TOpponent>
 
     private DrawSize GetDrawSize() {
         if (_size != TournamentSize.NotSet) {
-            return DrawSize.NewFromOpponents((int) _size);
+            return DrawSize.New(_size);
         }
-        return DrawSize.NewFromOpponents(_opponents.Count);
+        return DrawSize.NewRoundBase2(_opponents.Count);
     }
 }

@@ -1,7 +1,7 @@
 namespace CouchPartyGames.TournamentGenerator.Type;
 
 
-public record LocalMatchId {
+public sealed record LocalMatchId {
 
     const int NoProgression = -1;
 

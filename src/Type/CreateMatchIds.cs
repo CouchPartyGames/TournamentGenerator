@@ -3,7 +3,7 @@ namespace CouchPartyGames.TournamentGenerator.Type;
 using CouchPartyGames.TournamentGenerator.Position;
 
 
-public sealed class CreateMatchIds
+internal sealed class CreateMatchIds
 {
 
     private readonly IOpponentStartPosition _positions;

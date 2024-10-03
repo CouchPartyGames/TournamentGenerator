@@ -5,7 +5,7 @@ using CouchPartyGames.TournamentGenerator.Exceptions;
 using CouchPartyGames.TournamentGenerator;
 
 
-public sealed class SingleEliminationDraw<TOpponent> 
+internal sealed class SingleEliminationDraw<TOpponent> 
    where TOpponent : IOpponent
 {
    private readonly TournamentFinals _finalsType;
