@@ -64,9 +64,12 @@ internal sealed class CreateMatchProgression
 
 
     void Create1stRound(int numMatches, int round = 1) {
+        if (numMatches != _positions.Matches.Count) {
+            throw new InvalidFirstRoundMatchesException("Draw size doesn't match number of first round matches");
+        }
 
         for(int i = 1; i <= numMatches; i++) {
-            Matches.Add(MatchProgression.Create1stRound(round, i, _positions.Matches[i]));
+            Matches.Add(MatchProgression.Create1stRound(round, i, _positions.Matches[i - 1]));
 	    }
     }
 

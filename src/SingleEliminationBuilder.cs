@@ -63,8 +63,15 @@ public sealed class SingleEliminationBuilder<TOpponent>
             // Create Starting Positions 
         _startingPositions = new DefaultStartingPositions(drawSize);
 
+        var singleElim = new CreateMatchProgression(_startingPositions,
+            _finals,
+            _thirdPlace);
+        var singleMatches = singleElim.Matches;
+
+
             // Create Ids for each Match
         var matchIds = new CreateMatchIds(_startingPositions);
+        
 
         var order = Order<TOpponent>.Create(_seeding, _opponents);
         var opponents = order.Opponents;
