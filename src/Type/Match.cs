@@ -47,4 +47,14 @@ public sealed record Match<TOpponent> {
             Opponent1Position = matchWithId.Position1,
             Opponent2Position = matchWithId.Position2
         };
+
+    public static Match<TOpponent> New(MatchProgression matchProgression) => 
+        new Match<TOpponent> {
+            LocalMatchId = matchProgression.LocalMatchId,
+            Round = matchProgression.Round,
+            Opponent1Position = matchProgression.Position1,
+            Opponent2Position = matchProgression.Position2,
+            WinProgression = matchProgression.WinProgressionMatchId,
+            LoseProgression = matchProgression.LoseProgressionMatchId
+        };
 }

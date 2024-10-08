@@ -15,6 +15,8 @@ internal sealed class CreateMatchProgression
 
     private TournamentFinals _finalsType;
 
+    private readonly Tournament3rdPlace _thirdPlace;
+
     private readonly int _totalRounds;
 
     public CreateMatchProgression(IOpponentStartPosition positions, 
@@ -23,6 +25,7 @@ internal sealed class CreateMatchProgression
     {
         _positions = positions;
         _finalsType = finalsType;
+        _thirdPlace = tournament3rdPlace;
         _totalRounds = positions.DrawSize.ToTotalRounds();
         Create();
     }
@@ -58,7 +61,9 @@ internal sealed class CreateMatchProgression
             }
         }
 
-        CreateThirdPlace(_totalRounds - 1, thirdPlaceMatchId);
+        if (_thirdPlace == Tournament3rdPlace.ThirdPlace) {
+            CreateThirdPlace(_totalRounds - 1, thirdPlaceMatchId);
+        }
         CreateFinalRounds(_totalRounds, matchId);
     }
 
@@ -73,9 +78,10 @@ internal sealed class CreateMatchProgression
 	    }
     }
 
-    void CreateThirdPlace(int semiFinalsRound, int thirdPlaceMatchId) {
+    void CreateThirdPlace(int semiFinalsRound, int thirdPlaceMatchId = 99) {
         int round = 99;
 
+            // Create 3rd Place Match
         Matches.Add(MatchProgression.CreateOtherRounds(round, thirdPlaceMatchId));
 
             // Add Lose Progression to Semifinals matches
@@ -88,39 +94,45 @@ internal sealed class CreateMatchProgression
         });
     }
 
-    void CreateFinalRounds(int matchId, int round) {
+    void CreateFinalRounds(int round, int matchId) {
 
+        int semiFinalsRound = round - 1; 
         switch (_finalsType)
         {
             case TournamentFinals.OneOfOne:
                 Matches.Add(MatchProgression.CreateOtherRounds(round, matchId));
-
-                int semiFinalsRound = round - 1; 
-                // Add Win Progression to Semifinals
-                var semiFinalsMatches = Matches.Where(m => m.Round == semiFinalsRound).ToList();
-                if (semiFinalsMatches.Count != 2) {
-                    throw new ArgumentException("Semifinals should have only 2 matches");
-                }
-                semiFinalsMatches.ForEach(x => {
-                    x.UpdateWinProgression(matchId);
-                });
-
                 break;
 
             case TournamentFinals.TwoOfThree:
-                Matches.Add(MatchProgression.CreateOtherRounds(round, matchId));
-                Matches.Add(MatchProgression.CreateOtherRounds(round + 1, matchId + 1));
+                Matches.Add(MatchProgression.CreateOtherRounds(round, matchId, matchId + 1));
+                Matches.Add(MatchProgression.CreateOtherRounds(round + 1, matchId + 1, matchId + 2));
                 Matches.Add(MatchProgression.CreateOtherRounds(round + 2, matchId + 2));
                 break;
 
             case TournamentFinals.ThreeOfFive:
-                Matches.Add(MatchProgression.CreateOtherRounds(round, matchId));
-                Matches.Add(MatchProgression.CreateOtherRounds(round + 1, matchId + 1));
-                Matches.Add(MatchProgression.CreateOtherRounds(round + 2, matchId + 2));
-                Matches.Add(MatchProgression.CreateOtherRounds(round + 3, matchId + 3));
+                Matches.Add(MatchProgression.CreateOtherRounds(round, matchId, matchId + 1));
+                Matches.Add(MatchProgression.CreateOtherRounds(round + 1, matchId + 1, matchId + 2));
+                Matches.Add(MatchProgression.CreateOtherRounds(round + 2, matchId + 2, matchId + 3));
+                Matches.Add(MatchProgression.CreateOtherRounds(round + 3, matchId + 3, matchId + 4));
                 Matches.Add(MatchProgression.CreateOtherRounds(round + 4, matchId + 4));
                 break;
         }
+
+        UpdateSemifinalsWinProgression(semiFinalsRound, matchId);
+    }
+
+    void UpdateSemifinalsWinProgression(int semiFinalsRound, int finalsMatchId) {
+        var semiFinalsMatches = Matches
+            .Where(m => m.Round == semiFinalsRound)
+            .ToList();
+
+        if (semiFinalsMatches.Count != 2) {
+            throw new ArgumentException("Semifinals should have only 2 matches");
+        }
+
+        semiFinalsMatches.ForEach(x => {
+            x.UpdateWinProgression(finalsMatchId);
+        });
     }
 
     List<MatchProgression> GetPreviousRoundMatches(int curRound) {

@@ -62,27 +62,30 @@ public sealed class SingleEliminationBuilder<TOpponent>
 
             // Create Starting Positions 
         _startingPositions = new DefaultStartingPositions(drawSize);
-
-        var singleElim = new CreateMatchProgression(_startingPositions,
-            _finals,
-            _thirdPlace);
-        var singleMatches = singleElim.Matches;
-
-
-            // Create Ids for each Match
-        var matchIds = new CreateMatchIds(_startingPositions);
         
 
         var order = Order<TOpponent>.Create(_seeding, _opponents);
         var opponents = order.Opponents;
 
             // Create Tournament with Progressions
+        var singleElim = new CreateMatchProgression(_startingPositions,
+            _finals,
+            _thirdPlace);
+        var matches = singleElim.Matches
+            .Select( x => Match<TOpponent>.New(x))
+            .ToList();
+
+            // Create Tournament with Progressions
+            // Create Ids for each Match
+        /*
+        var matchIds = new CreateMatchIds(_startingPositions);
         var draw = new SingleEliminationDraw<TOpponent>(matchIds, _finals);
         draw.CreateMatchProgressions();
         if (opponents.Count > 0) {
             draw.WithOpponents(opponents);
         }
         var matches = draw.Matches;
+        */
 
         return new Tournament<TOpponent> {
             Name = _name,
