@@ -53,6 +53,7 @@ var tournament = new SingleEliminationBuilder<MyOpponent>("Bob's Tournament")
     .SetSize(TournamentSize.Size16)
     .SetSeeding(TournamentSeeding.Ranked)
     .SetFinals(TournamentFinals.TwoOfThree)
+    .Set3rdPlace(Tournament3rdPlace.ThirdPlace)
     .Build();
 
 foreach(var match in tournament.Matches) {
