@@ -6,7 +6,7 @@ using CouchPartyGames.TournamentGenerator;
 using CouchPartyGames.TournamentGenerator.Exceptions;
 
 
-internal sealed class CreateMatchProgression
+internal sealed class SingleProgression
 {
 
     private readonly IOpponentStartPosition _positions;
@@ -19,7 +19,7 @@ internal sealed class CreateMatchProgression
 
     private readonly int _totalRounds;
 
-    public CreateMatchProgression(IOpponentStartPosition positions, 
+    public SingleProgression(IOpponentStartPosition positions, 
         TournamentFinals finalsType,
         Tournament3rdPlace tournament3rdPlace)
     {
@@ -135,12 +135,10 @@ internal sealed class CreateMatchProgression
         });
     }
 
-    List<MatchProgression> GetPreviousRoundMatches(int curRound) {
-        int prevRound = curRound -1;
-        return Matches
-            .Where(m => m.Round == prevRound)
+    List<MatchProgression> GetPreviousRoundMatches(int curRound) => 
+        Matches
+            .Where(m => m.Round == curRound - 1)
             .ToList();
-    }
 
     int GetTotalMatchesInRound(int round) => (int)_positions.DrawSize.Value / (int)Math.Pow(2, round);
 }

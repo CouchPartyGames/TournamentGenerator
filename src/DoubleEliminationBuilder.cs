@@ -4,11 +4,9 @@ using CouchPartyGames.TournamentGenerator.Opponent;
 using CouchPartyGames.TournamentGenerator.Position;
 using CouchPartyGames.TournamentGenerator.Type;
 
-
-public sealed class SingleEliminationBuilder<TOpponent> 
+public sealed class DoubleEliminationBuilder<TOpponent> 
     where TOpponent : IOpponent 
 {
-
     private string _name;
 
     private List<TOpponent> _opponents = new();
@@ -21,72 +19,52 @@ public sealed class SingleEliminationBuilder<TOpponent>
 
     private TournamentSeeding _seeding = TournamentSeeding.Ranked;
 
-    private Tournament3rdPlace _thirdPlace = Tournament3rdPlace.NoThirdPlace;
 
     private TournamentFinals _finals = TournamentFinals.OneOfOne;
 
-    public SingleEliminationBuilder(string name) {
+    public DoubleEliminationBuilder(string name) {
         _name = name;
     }
 
-
-    public SingleEliminationBuilder<TOpponent> WithOpponents(List<TOpponent> opponents, TOpponent byeOpponent) {
+    public DoubleEliminationBuilder<TOpponent> WithOpponents(List<TOpponent> opponents, TOpponent byeOpponent) {
         _opponents = opponents;
         _byeOpponent = byeOpponent;
         return this;
     }
 
-    public SingleEliminationBuilder<TOpponent> SetFinals(TournamentFinals finals) {
-        _finals = finals;
-        return this;
-    }
-
-    public SingleEliminationBuilder<TOpponent> SetSize(TournamentSize size) {
+    public DoubleEliminationBuilder<TOpponent> SetSize(TournamentSize size) {
         _size = size;
         return this;
     }
 
-    public SingleEliminationBuilder<TOpponent> SetSeeding(TournamentSeeding seeding) {
+    public DoubleEliminationBuilder<TOpponent> SetSeeding(TournamentSeeding seeding) {
         _seeding = seeding;
         return this;
     }
 
-    public SingleEliminationBuilder<TOpponent> Set3rdPlace(Tournament3rdPlace thirdPlace) {
-        _thirdPlace = thirdPlace;
-        return this;
-    }
-
-
     public Tournament<TOpponent> Build() {
         var drawSize = GetDrawSize();
-
-            // Create Starting Positions 
         _startingPositions = new DefaultStartingPositions(drawSize);
-        
+        _size = drawSize.Value;
 
         var order = Order<TOpponent>.Create(_seeding, _opponents);
         var opponents = order.Opponents;
 
-            // Create Tournament with Progressions
-        var singleElim = new SingleProgression(_startingPositions,
-            _finals,
-            _thirdPlace);
-        var matches = singleElim.Matches
-            .Select( x => Match<TOpponent>.New(x))
+        var doubleElim = new DoubleProgression(_startingPositions);
+        var matches = doubleElim.Matches
+            .Select( x => Match<TOpponent>.New(x) )
             .ToList();
-
 
         return new Tournament<TOpponent> {
             Name = _name,
-            Size = (int)_size,
+            Size = (int) _size,
             Seeding = nameof(_seeding),
-            ThirdPlace = _thirdPlace == Tournament3rdPlace.ThirdPlace ? "Yes" : "No",
+            ThirdPlace = "No",
             FinalsType = _finals,
             ActiveOpponents = _opponents,
             Matches = matches
         };
     }
-
 
     private DrawSize GetDrawSize() {
         if (_size != TournamentSize.NotSet) {
