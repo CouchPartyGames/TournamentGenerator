@@ -36,7 +36,7 @@ public sealed class DoubleProgression {
         for(round = 2; round < _totalRounds; round++) {
             AddNextRound(round);
         }
-        //AddFinalsRound();
+        AddFinalsRound(_totalRounds);
     }
 
 
@@ -93,49 +93,58 @@ public sealed class DoubleProgression {
     }
 
     void AddLosingRound(int curWinRound) {
-        var chunkPrevLosers = GetRoundMatchesInChunks(_losingRound - 1);
-        var chunkCurWinners = GetRoundMatchesInChunks(curWinRound);
+        var prevLosers = GetRoundMatches(_losingRound - 1);
+        var curWinners = GetRoundMatches(curWinRound);
 
-
-        /*
-        if (chunkPrevLosers.Count != chunkCurWinners.Count) {
+        
+        if (prevLosers.Count != curWinners.Count) {
             throw new Exception("Mismatching");
-        }*/
-        int numMatches = chunkPrevLosers.ToList().Count;
+        }
+        
+            // Prev Loser's Bracket winners vs Winner's Bracket player that lost
+        for(int i = 0; i < prevLosers.Count; i++) {
+            var prevLoseMatch = prevLosers[i];
+            var curWinnerMatch = curWinners[i];
 
-            // Create Matches
-        for (int i = 0; i < numMatches; i++) {
-            Matches.Add(MatchProgression.CreateOtherRounds(_losingRound, _matchId));
+            var match = MatchProgression.CreateOtherRounds(_losingRound, _matchId);
+            Matches.Add(match);
             _matchId++;
         }
         _losingRound++;
 
-            // Create Next Matches
-            // Previous Round winners will play each other
-        for(int i = 0; i < numMatches / 2; i++) {
+
+            // Winners of Prev Round will play each other
+        var prevChunks = GetRoundMatchesInChunks(_losingRound - 1);
+        foreach(var pairOfMatches in prevChunks) {
             Matches.Add(MatchProgression.CreateOtherRounds(_losingRound, _matchId));
-            _matchId++;
+            foreach(var match in pairOfMatches) {
+                match.UpdateWinProgression(_matchId);
+            }
+            _matchId ++;
         }
         _losingRound++;
-
     }
 
     void AddFinalsRound(int finalsRound) {
+        var semiFinals = GetRoundMatches(finalsRound - 1);
+        foreach(var semisMatch in semiFinals) {
+            semisMatch.UpdateWinProgression(_matchId);
+        }
+
             // Add Finals Match in Winners Bracket
-            // ToDo - Add Progression
-        Matches.Add(MatchProgression.CreateOtherRounds(finalsRound, _matchId));
+        Matches.Add(MatchProgression.CreateOtherRounds(finalsRound, _matchId, _matchId+1));
         _matchId++;
 
             // Add Finals Match in Losers Bracket
-            // ToDo - Add Progression
-        Matches.Add(MatchProgression.CreateOtherRounds(_losingRound, _matchId));
+        Matches.Add(MatchProgression.CreateOtherRounds(_losingRound, _matchId, _matchId+1));
         _matchId++;   
 
+        var optionalRound = finalsRound + 1;
             // Final #2 Match
-            // ToDo - Add Progression
-        Matches.Add(MatchProgression.CreateOtherRounds(optionalRound, _matchId));
+        Matches.Add(MatchProgression.CreateOtherRounds(optionalRound, _matchId, _matchId+1));
         _matchId++;   
-        
+
+        optionalRound = finalsRound + 1;
             // Final #3 - Each Player has 1 loss
             // Optional Match
         Matches.Add(MatchProgression.CreateOtherRounds(optionalRound, _matchId));
@@ -148,6 +157,11 @@ public sealed class DoubleProgression {
             .Where(x => x.Round == round)
             .ToList()
             .Chunk<MatchProgression>(2);
+
+    List<MatchProgression> GetRoundMatches(int round) => 
+        Matches
+            .Where(x => x.Round == round)
+            .ToList();
 
     void AddMatch(MatchProgression match) {
         Matches.Add(match);
