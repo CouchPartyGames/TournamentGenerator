@@ -114,13 +114,15 @@ public sealed class DoubleProgression {
 
 
             // Winners of Prev Round will play each other
-        var prevChunks = GetRoundMatchesInChunks(_losingRound - 1);
-        foreach(var pairOfMatches in prevChunks) {
+        var prevRoundChunks = GetRoundMatchesInChunks(_losingRound - 1);
+        foreach(var pairOfMatches in prevRoundChunks) {
+                // Create Match
             Matches.Add(MatchProgression.CreateOtherRounds(_losingRound, _matchId));
-            foreach(var match in pairOfMatches) {
-                match.UpdateWinProgression(_matchId);
+
+            foreach(var prevMatch in pairOfMatches) {
+                prevMatch.UpdateWinProgression(_matchId);
             }
-            _matchId ++;
+            _matchId++;
         }
         _losingRound++;
     }

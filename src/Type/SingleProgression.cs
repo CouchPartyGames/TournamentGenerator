@@ -42,10 +42,9 @@ internal sealed class SingleProgression
         matchId = totalMatchesInRound + 1;
 
         for(round = 2; round < _totalRounds; round++) {
-            var prevRoundMatches = GetPreviousRoundMatches(round);
-            var chunkPairs = prevRoundMatches.Chunk<MatchProgression>(2);
-
+            var chunkPairs = GetRoundMatchesInChunks(round - 1);
             totalMatchesInRound = GetTotalMatchesInRound(round);
+
             if (chunkPairs.ToList().Count != totalMatchesInRound) {
                 throw new MismatchProgressionChunkSize("Mismatching number of previous matches");
             }
@@ -139,6 +138,17 @@ internal sealed class SingleProgression
         Matches
             .Where(m => m.Round == curRound - 1)
             .ToList();
+
+    List<MatchProgression> GetRoundMatches(int round) => 
+        Matches
+            .Where(m => m.Round == round)
+            .ToList();
+
+    IEnumerable<MatchProgression[]> GetRoundMatchesInChunks(int round) =>
+        Matches
+            .Where(m => m.Round == round)
+            .ToList()
+            .Chunk<MatchProgression>(2);
 
     int GetTotalMatchesInRound(int round) => (int)_positions.DrawSize.Value / (int)Math.Pow(2, round);
 }
