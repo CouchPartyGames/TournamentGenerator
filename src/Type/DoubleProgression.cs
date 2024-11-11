@@ -63,7 +63,7 @@ public sealed class DoubleProgression {
             Matches.Add(MatchProgression.CreateOtherRounds(_losingRound, _matchId));
 
             foreach(var prevFirstRoundMatch in pair) {
-                    // update winners bracket
+                    // update winners bracket to point to 1st round loser's bracket
                 prevFirstRoundMatch.UpdateLoseProgression(_matchId);
             }
             _matchId++;
@@ -106,8 +106,13 @@ public sealed class DoubleProgression {
             var prevLoseMatch = prevLosers[i];
             var curWinnerMatch = curWinners[i];
 
+                // Create Match
             var match = MatchProgression.CreateOtherRounds(_losingRound, _matchId);
             Matches.Add(match);
+            
+                // Update Loser's Bracket Progression
+            prevLoseMatch.UpdateWinProgression(_matchId);
+            
             _matchId++;
         }
         _losingRound++;
@@ -119,6 +124,7 @@ public sealed class DoubleProgression {
                 // Create Match
             Matches.Add(MatchProgression.CreateOtherRounds(_losingRound, _matchId));
 
+                // Update Progression
             foreach(var prevMatch in pairOfMatches) {
                 prevMatch.UpdateWinProgression(_matchId);
             }
