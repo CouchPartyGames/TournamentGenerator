@@ -7,7 +7,7 @@ Simple Tournament Generator
 ## Features
 
 - Single elimination tournament 
-- 
+- Double elimination tournament
 
 
 ## Installation
