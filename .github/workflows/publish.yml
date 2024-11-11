@@ -1,0 +1,34 @@
+name: Publish Nuget
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Publish NuGet package
+    runs-on: ubuntu-latest
+    env:
+      TEST: "Test"
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET Core @ Latest
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+          source-url: https://nuget.pkg.github.com/<organization>/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Build solution and generate NuGet package
+        run: |
+          cd src
+          dotnet pack -c Release
+          
+      - name: Publish the package to nuget.org
+        run: |
+          dotnet nuget push */src/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
