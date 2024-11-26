@@ -49,4 +49,7 @@ public sealed record Match<TOpponent> {
             WinProgression = matchProgression.WinProgressionMatchId,
             LoseProgression = matchProgression.LoseProgressionMatchId
         };
+
+    public bool NextWinProgressionExists() => WinProgression != NoProgression;
+    public bool NextLoseProgressionExists() => LoseProgression != NoProgression;
 }
