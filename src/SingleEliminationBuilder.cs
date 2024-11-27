@@ -77,7 +77,9 @@ public sealed class SingleEliminationBuilder<TOpponent>
             {
                 if (_opponents.Count > 0)
                 {
-                    return Match<TOpponent>.New(x, opponents[x.Position1], opponents[x.Position1]);
+                    var opp1 = opponents.ContainsKey(x.Position1) ? opponents[x.Position1] : _byeOpponent;
+                    var opp2 = opponents.ContainsKey(x.Position2) ? opponents[x.Position2] : _byeOpponent;
+                    return Match<TOpponent>.New(x, opp1, opp2);
                 }
                     
                 return Match<TOpponent>.New(x);
