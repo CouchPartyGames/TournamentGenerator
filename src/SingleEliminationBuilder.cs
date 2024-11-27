@@ -9,9 +9,9 @@ public sealed class SingleEliminationBuilder<TOpponent>
     where TOpponent : IOpponent 
 {
 
-    private string _name;
+    private readonly string _name;
 
-    private List<TOpponent> _opponents = new();
+    private List<TOpponent> _opponents = [];
 
     private TOpponent _byeOpponent;
 
@@ -25,12 +25,16 @@ public sealed class SingleEliminationBuilder<TOpponent>
 
     private TournamentFinals _finals = TournamentFinals.OneOfOne;
 
+    private bool _shouldHaveOpponents = false;
+
     public SingleEliminationBuilder(string name) {
         _name = name;
     }
 
 
-    public SingleEliminationBuilder<TOpponent> WithOpponents(List<TOpponent> opponents, TOpponent byeOpponent) {
+    public SingleEliminationBuilder<TOpponent> WithOpponents(List<TOpponent> opponents, TOpponent byeOpponent)
+    {
+        _shouldHaveOpponents = true;
         _opponents = opponents;
         _byeOpponent = byeOpponent;
         return this;
@@ -59,13 +63,17 @@ public sealed class SingleEliminationBuilder<TOpponent>
 
     public Tournament<TOpponent> Build() {
         var drawSize = GetDrawSize();
+        Dictionary<int, TOpponent> opponents = new();
 
             // Create Starting Positions 
         _startingPositions = new DefaultStartingPositions(drawSize);
-        
 
-        var order = Order<TOpponent>.Create(_seeding, _opponents);
-        var opponents = order.Opponents;
+
+        if (_shouldHaveOpponents)
+        {
+            var order = Order<TOpponent>.Create(_seeding, _opponents);
+            opponents = order.Opponents;
+        }
 
             // Create Tournament with Progressions
         var singleElim = new SingleProgression(_startingPositions,
@@ -75,7 +83,7 @@ public sealed class SingleEliminationBuilder<TOpponent>
             .Matches
             .Select( x =>
             {
-                if (_opponents.Count > 0)
+                if (_shouldHaveOpponents)
                 {
                     var opp1 = opponents.ContainsKey(x.Position1) ? opponents[x.Position1] : _byeOpponent;
                     var opp2 = opponents.ContainsKey(x.Position2) ? opponents[x.Position2] : _byeOpponent;
