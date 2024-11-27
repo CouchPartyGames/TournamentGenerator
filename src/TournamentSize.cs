@@ -1,4 +1,5 @@
 namespace CouchPartyGames.TournamentGenerator;
+using CouchPartyGames.TournamentGenerator.Position;
 
 public enum TournamentSize
 {

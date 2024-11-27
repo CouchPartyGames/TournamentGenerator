@@ -71,8 +71,17 @@ public sealed class SingleEliminationBuilder<TOpponent>
         var singleElim = new SingleProgression(_startingPositions,
             _finals,
             _thirdPlace);
-        var matches = singleElim.Matches
-            .Select( x => Match<TOpponent>.New(x))
+        var matches = singleElim
+            .Matches
+            .Select( x =>
+            {
+                if (_opponents.Count > 0)
+                {
+                    return Match<TOpponent>.New(x, opponents[x.Position1], opponents[x.Position1]);
+                }
+                    
+                return Match<TOpponent>.New(x);
+            })
             .ToList();
 
 

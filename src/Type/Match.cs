@@ -49,6 +49,18 @@ public sealed record Match<TOpponent> {
             WinProgression = matchProgression.WinProgressionMatchId,
             LoseProgression = matchProgression.LoseProgressionMatchId
         };
+    
+    public static Match<TOpponent> New(MatchProgression matchProgression, TOpponent opponent1, TOpponent opponent2) => 
+        new Match<TOpponent> {
+            LocalMatchId = matchProgression.LocalMatchId,
+            Round = matchProgression.Round,
+            Opponent1 = opponent1,
+            Opponent2 = opponent2,
+            Opponent1Position = matchProgression.Position1,
+            Opponent2Position = matchProgression.Position2,
+            WinProgression = matchProgression.WinProgressionMatchId,
+            LoseProgression = matchProgression.LoseProgressionMatchId
+        };
 
     public bool NextWinProgressionExists() => WinProgression != NoProgression;
     public bool NextLoseProgressionExists() => LoseProgression != NoProgression;
