@@ -25,31 +25,26 @@ public class Tournament<TOpponent>
 
     public Tournament() { }
 
-    public Match<TOpponent> GetMatch(int localMatchId) {
-        //return Matches.Where(m => m.LocalMatchId == localMatchId).First();
-        throw new NotImplementedException();
+    public Match<TOpponent>? GetMatch(int localMatchId) {
+        return Matches.FirstOrDefault(m => m.LocalMatchId == localMatchId);
     }
 
     // <summary>
     // Find the next match
-    public Match<TOpponent> GetNextMatch(int localMatchId) {
-        /*
-        var nextMatchId = Matches.Where(m => m.LocalMatchId == localMatchId).Select(m => m.WinProgression).FirstOrDefault();
-        if (nextMatchId is null) {
-            return NotFound;
-        } else if (nextMatchId == -1) {
-            return NoMatch;
-        } */
-
-        /*
+    public Match<TOpponent>? GetWinProgressionMatch(int localMatchId) {
         return Matches
             .Where(m => m.LocalMatchId == localMatchId)
-            .Select(m => m.WinProgression)
-            .First();
-            */
-        throw new NotImplementedException();
+            .Select(m => Matches.FirstOrDefault(m2 => m2.LocalMatchId == m.WinProgression))
+            .FirstOrDefault();
     }
 
+    public Match<TOpponent>? GetLoseProgressionMatch(int localMatchId)
+    {
+        return Matches.Where(m => m.LocalMatchId == localMatchId)
+            .Select(m => Matches.FirstOrDefault(m2 => m2.LocalMatchId == m.LoseProgression))
+            .FirstOrDefault();
+    }
+    
     // <summary>
     /*
     public Match GetNextMatch(int localMatchId, IOpponent opponent) =>
