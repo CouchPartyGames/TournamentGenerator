@@ -5,7 +5,7 @@ using CouchPartyGames.TournamentGenerator.Position;
 using CouchPartyGames.TournamentGenerator.Type;
 
 public sealed class DoubleEliminationBuilder<TOpponent> 
-    where TOpponent : IOpponent 
+    where TOpponent : IOpponent, IEquatable<TOpponent>
 {
     private string _name;
 

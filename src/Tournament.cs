@@ -4,7 +4,7 @@ using CouchPartyGames.TournamentGenerator.Opponent;
 using CouchPartyGames.TournamentGenerator.Type;
 
 public class Tournament<TOpponent> 
-    where TOpponent : IOpponent 
+    where TOpponent : IOpponent, IEquatable<TOpponent>
 {
 
     public required string Name { get; init; }

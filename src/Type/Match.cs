@@ -1,6 +1,6 @@
 namespace CouchPartyGames.TournamentGenerator.Type;
 
-public sealed record Match<TOpponent> {
+public sealed record Match<TOpponent> where TOpponent : IEquatable<TOpponent>  {
 
     const int NoProgression = -1;
     const int NoPosition = -1;
@@ -62,6 +62,11 @@ public sealed record Match<TOpponent> {
             LoseProgression = matchProgression.LoseProgressionMatchId
         };
 
+    public bool HasWinProgression() => WinProgression != NoProgression;
+    public bool HasLoseProgression() => LoseProgression != NoProgression;
+    
+    public bool HasByeOpponent(TOpponent byeOpponent) => byeOpponent.Equals(Opponent1) || byeOpponent.Equals(Opponent2);
+    
     public bool NextWinProgressionExists() => WinProgression != NoProgression;
     public bool NextLoseProgressionExists() => LoseProgression != NoProgression;
 }

@@ -6,7 +6,7 @@ using CouchPartyGames.TournamentGenerator.Type;
 
 
 public sealed class SingleEliminationBuilder<TOpponent> 
-    where TOpponent : IOpponent 
+    where TOpponent : IOpponent, IEquatable<TOpponent>
 {
 
     private readonly string _name;
