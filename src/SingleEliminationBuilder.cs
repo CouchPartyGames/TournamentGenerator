@@ -99,18 +99,19 @@ public sealed class SingleEliminationBuilder<TOpponent>
             Name = _name,
             Size = (int)_size,
             Seeding = nameof(_seeding),
-            ThirdPlace = _thirdPlace == Tournament3rdPlace.ThirdPlace ? "Yes" : "No",
+            HasThirdPlace = _thirdPlace == Tournament3rdPlace.ThirdPlace,
             FinalsType = _finals,
             ActiveOpponents = _opponents,
-            Matches = matches
+            Matches = matches,
+            ThirdPlaceMatchId = singleElim.ThirdPlaceMatchId,
+            FinalMatchId = singleElim.FinalMatchId
         };
     }
 
 
-    private DrawSize GetDrawSize() {
-        if (_size != TournamentSize.NotSet) {
-            return DrawSize.New(_size);
-        }
-        return DrawSize.NewRoundBase2(_opponents.Count);
+    private DrawSize GetDrawSize()
+    {
+        return _size != TournamentSize.NotSet ? DrawSize.New(_size) : DrawSize.NewRoundBase2(_opponents.Count);
     }
+
 }

@@ -9,7 +9,9 @@ public class Tournament<TOpponent>
 
     public required string Name { get; init; }
 
-    public required string ThirdPlace { get; init; }
+    public required bool HasThirdPlace { get; init; }
+    
+    public int ThirdPlaceMatchId { get; init; } = -1;
 
     public required TournamentFinals FinalsType { get; init; }
 
@@ -22,6 +24,8 @@ public class Tournament<TOpponent>
     public List<IOpponent> RejectedOpponents { get; init; } = new();
 
     public List<Match<TOpponent>> Matches { get; init; } = new();
+    
+    public int FinalMatchId { get; init; } = -1;
 
     public Tournament() { }
 

@@ -18,6 +18,10 @@ internal sealed class SingleProgression
     private readonly Tournament3rdPlace _thirdPlace;
 
     private readonly int _totalRounds;
+    
+    public int FinalMatchId { get; private set; }
+    
+    public int ThirdPlaceMatchId { get; private set; } = -1;
 
     public SingleProgression(IOpponentStartPosition positions, 
         TournamentFinals finalsType,
@@ -38,7 +42,7 @@ internal sealed class SingleProgression
         int thirdPlaceMatchId = 99;
         int totalMatchesInRound = GetTotalMatchesInRound(round); 
 
-        Create1stRound(totalMatchesInRound);
+        CreateFirstRound(totalMatchesInRound);
         matchId = totalMatchesInRound + 1;
 
         for(round = 2; round < _totalRounds; round++) {
@@ -67,7 +71,7 @@ internal sealed class SingleProgression
     }
 
 
-    void Create1stRound(int numMatches, int round = 1) {
+    void CreateFirstRound(int numMatches, int round = 1) {
         if (numMatches != _positions.Matches.Count) {
             throw new InvalidFirstRoundMatchesException("Draw size doesn't match number of first round matches");
         }
@@ -82,6 +86,8 @@ internal sealed class SingleProgression
 
             // Create 3rd Place Match
         Matches.Add(MatchProgression.CreateOtherRounds(round, thirdPlaceMatchId));
+        ThirdPlaceMatchId = thirdPlaceMatchId;
+        
 
             // Add Lose Progression to Semifinals matches
         var semiFinalsMatches = Matches.Where(m => m.Round == semiFinalsRound).ToList();
@@ -100,12 +106,14 @@ internal sealed class SingleProgression
         {
             case TournamentFinals.OneOfOne:
                 Matches.Add(MatchProgression.CreateOtherRounds(round, matchId));
+                FinalMatchId = matchId;
                 break;
 
             case TournamentFinals.TwoOfThree:
                 Matches.Add(MatchProgression.CreateOtherRounds(round, matchId, matchId + 1));
                 Matches.Add(MatchProgression.CreateOtherRounds(round + 1, matchId + 1, matchId + 2));
                 Matches.Add(MatchProgression.CreateOtherRounds(round + 2, matchId + 2));
+                FinalMatchId = matchId + 2;
                 break;
 
             case TournamentFinals.ThreeOfFive:
@@ -114,6 +122,7 @@ internal sealed class SingleProgression
                 Matches.Add(MatchProgression.CreateOtherRounds(round + 2, matchId + 2, matchId + 3));
                 Matches.Add(MatchProgression.CreateOtherRounds(round + 3, matchId + 3, matchId + 4));
                 Matches.Add(MatchProgression.CreateOtherRounds(round + 4, matchId + 4));
+                FinalMatchId = matchId + 4;
                 break;
         }
 

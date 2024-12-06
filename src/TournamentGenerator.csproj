@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>CouchPartyGames.TournamentGenerator</PackageId>
-	<Version>1.5.1</Version>
+	<Version>1.6.0</Version>
 	<Authors>CouchPartyGames</Authors>
 	<SymbolPackageForm>snupkg</SymbolPackageForm>
 	<PackageProjectUrl>https://github.com/CouchPartyGames/TournamentGenerator</PackageProjectUrl>

@@ -59,10 +59,12 @@ public sealed class DoubleEliminationBuilder<TOpponent>
             Name = _name,
             Size = (int) _size,
             Seeding = nameof(_seeding),
-            ThirdPlace = "No",
+            HasThirdPlace = false,
             FinalsType = _finals,
             ActiveOpponents = _opponents,
-            Matches = matches
+            Matches = matches,
+            FinalMatchId = doubleElim.Matches.Max(x => x.LocalMatchId),
+            ThirdPlaceMatchId = -1
         };
     }
 
